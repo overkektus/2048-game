@@ -1,26 +1,20 @@
 import styled from "styled-components";
 
 import Cell from "./Cell";
+import Tile from "./Tile";
+
+import { Grid } from "../core/grid";
 
 function GameBoard() {
+  const grid = new Grid();
   return (
     <Board>
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
-      <Cell />
+      {grid.cells.map((cell) => (
+        <Cell key={`${cell.x}-${cell.y}`} />
+      ))}
+      {grid.tiles.map((tile) => (
+        <Tile rowPosition={tile.x} columnPosition={tile.y} value={tile.value} />
+      ))}
     </Board>
   );
 }
