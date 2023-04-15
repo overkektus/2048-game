@@ -1,9 +1,19 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-function Tile() {
+interface TileProps {
+  rowPosition: number;
+  columnPosition: number;
+  value: number;
+}
+
+function Tile({ rowPosition, columnPosition, value }: TileProps) {
   return (
-    <TileDiv rowPosition={2} columnPosition={1}>
-      2
+    <TileDiv
+      rowPosition={rowPosition}
+      columnPosition={columnPosition}
+      value={value}
+    >
+      {value}
     </TileDiv>
   );
 }
@@ -11,6 +21,7 @@ function Tile() {
 interface TileDivProps {
   rowPosition: number;
   columnPosition: number;
+  value: number;
 }
 
 const TileDiv = styled.div<TileDivProps>`
@@ -26,8 +37,14 @@ const TileDiv = styled.div<TileDivProps>`
   font-family: Arial, Helvetica, sans-serif;
   font-size: 7.5vmin;
   font-weight: bold;
-  background-color: #fff;
-  color: #000;
+  ${(props) => {
+    const bgLightness = 100 - Math.log2(props.value) * 9;
+    const textLightness = bgLightness < 50 ? 90 : 10;
+    return css`
+      background-color: hsl(25, 60%, ${bgLightness}%);
+      color: hsl(20, 25%, ${textLightness}%);
+    `;
+  }}
   transition: 100ms;
   animation: show 200ms;
 
